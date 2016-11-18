@@ -15,25 +15,18 @@ enum Intensity: String {
 class HomeViewController: UIViewController {
     let store = PlayerDataStore.sharedInstance
     var numberOfPlayers: Int = 6
-    var playerList: [String] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"]
+    var players: [Player] = []
     var intensity: Intensity = .light
     
     @IBOutlet weak var numberOfPlayersLabel: UILabel!
+    @IBOutlet weak var playerListTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         store.fetchData()
+        
     }
 
-    
-    @IBAction func numberOfPlayersSlider(_ sender: UISlider) {
-        var newArray: [String] = []
-        numberOfPlayersLabel.text = String(Int(sender.value))
-        for i in 1...Int(sender.value) {
-            newArray.append("Player \(i)")
-        }
-        playerList = newArray
-    }
     
     @IBAction func intensitySegmentControl(_ sender: UISegmentedControl) {
         let index = sender.selectedSegmentIndex
@@ -48,9 +41,14 @@ class HomeViewController: UIViewController {
             break
         }
     }
-    
-   
-
-
 }
 
+extension HomeViewController: AddPlayerDelegate {
+    func add(player: Player) {
+        players.append(player)
+    }
+}
+
+protocol AddPlayerDelegate {
+    func add(player: Player)
+}

@@ -15,8 +15,6 @@ class PlayersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        playersTableView.dataSource = self
-        playersTableView.delegate = self
     }
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
