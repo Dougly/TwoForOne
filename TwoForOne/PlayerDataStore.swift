@@ -18,7 +18,7 @@ class PlayerDataStore {
     
     func fetchData() {
         let context = persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Player>(entityName: "player")
+        let fetchRequest = NSFetchRequest<Player>(entityName: "Player")
         do{
             players = try context.fetch(fetchRequest)
         }catch{

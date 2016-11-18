@@ -7,34 +7,48 @@
 //
 
 import UIKit
+import CoreData
 
 class PlayersViewController: UIViewController {
-    
     let store = PlayerDataStore.sharedInstance
     @IBOutlet weak var playersTableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        playersTableView.dataSource = self
+        playersTableView.delegate = self
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "createPlayerSegue" {
+            let destVC = segue.destination as! AddPlayerViewController
+            destVC.delegate = self
+        }
+    }
 }
 
 
+//MARK: save player delegate
+protocol SavePlayerDelegate {
+    func savePlayer(name: String)
+}
 
-
-
-//MARK: SavePlayerDelegate extension
 extension PlayersViewController: SavePlayerDelegate {
     
     func savePlayer(name: String) {
-        //save player to core data and add to table view of players
+        let context = store.persistentContainer.viewContext
+        let player = Player(context: context)
+        player.name = name
+        player.bestRoll = "0"
+        player.mostDrinks = "0"
+        store.saveContext()
+        store.players.append(player)
+        playersTableView.reloadData()
     }
 }
 
 
-//MARK: table view extension
+//MARK: table view datasource and delegate
 extension PlayersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,19 +57,12 @@ extension PlayersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = playersTableView.dequeueReusableCell(withIdentifier: "playerCell")
-        
-        cell?.textLabel?.text = "test"
-        
+        if let name = store.players[indexPath.row].name {
+            cell?.textLabel?.text = name
+        }
         return cell!
     }
-    
 }
 
 
 
-
-
-protocol SavePlayerDelegate {
-    func savePlayer(name: String)
-    
-}

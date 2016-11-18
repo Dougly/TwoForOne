@@ -308,7 +308,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="qe0-JF-1Vm"/>
                                     <barButtonItem systemItem="add" id="xaJ-b2-mk4">
                                         <connections>
-                                            <segue destination="Ajb-Mj-ihf" kind="presentation" id="Tfo-Ld-8qj"/>
+                                            <segue destination="Ajb-Mj-ihf" kind="presentation" identifier="createPlayerSegue" id="Tfo-Ld-8qj"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>

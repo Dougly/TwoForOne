@@ -13,7 +13,7 @@ enum Intensity: String {
 }
 
 class HomeViewController: UIViewController {
-
+    let store = PlayerDataStore.sharedInstance
     var numberOfPlayers: Int = 6
     var playerList: [String] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"]
     var intensity: Intensity = .light
@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        store.fetchData()
     }
 
     

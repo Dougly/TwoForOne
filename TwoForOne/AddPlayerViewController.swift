@@ -11,6 +11,7 @@ import UIKit
 
 class AddPlayerViewController: UIViewController {
     
+    var delegate: SavePlayerDelegate?
     @IBOutlet weak var playerNameTextField: UITextField!
     
     
@@ -19,5 +20,7 @@ class AddPlayerViewController: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+        delegate?.savePlayer(name: playerNameTextField.text!)
+        self.dismiss(animated: true, completion: nil)
     }
 }
