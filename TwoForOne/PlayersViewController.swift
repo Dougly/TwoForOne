@@ -19,6 +19,11 @@ class PlayersViewController: UIViewController {
         playersTableView.delegate = self
     }
     
+    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "createPlayerSegue" {
             let destVC = segue.destination as! AddPlayerViewController
