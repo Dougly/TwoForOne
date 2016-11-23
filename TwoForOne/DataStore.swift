@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class PlayerDataStore {
+class DataStore {
     static let sharedInstance = PlayerDataStore()
     
     private init() {}
@@ -30,7 +30,7 @@ class PlayerDataStore {
     
     
     
-    
+    //MARK: CoreData Stack
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
