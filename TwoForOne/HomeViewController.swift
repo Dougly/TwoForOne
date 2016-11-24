@@ -57,6 +57,11 @@ class HomeViewController: UIViewController {
             let destVC = segue.destination as! PlayersViewController
             destVC.delegate = self
         }
+        
+        if segue.identifier == "homeToGame" {
+            let destVC = segue.destination as! GameViewController
+            destVC.game = Game(players: selectedPlayers, intensity: intensity)
+        }
     }
 }
 

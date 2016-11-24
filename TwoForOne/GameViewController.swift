@@ -10,6 +10,9 @@ import UIKit
 
 class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
     
+    var game: Game?
+    var gameDescription = ""
+    
     var rollToBeat: Int = 0
     var numOfDrinks: Int = 0
     var rolls: [Int] = []
@@ -27,12 +30,26 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         rollsCollectionView.delegate = self
         rollsCollectionView.dataSource = self
         addDieView.isHidden = true
     }
     
+    func printGameDescription() {
+        if let game = game {
+            for player in game.players {
+                players.append(player.name!)
+            }
+            print("game: \(game)\nplayers: \(players)\nscore: \(game.score)\ndrinks: \(game.drinks)\n turn: \(game.player!)")
+        }
+    }
+    
     @IBAction func rollDie(_ sender: UIButton) {
+        game?.takeTurn()
+        printGameDescription()
+        
         if rolls.isEmpty {
             rolls.append(Int(arc4random_uniform(6))+1)
             numOfDrinks += 1
