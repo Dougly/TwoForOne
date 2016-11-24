@@ -10,20 +10,4 @@ import Foundation
 
 extension Player {
     
-    func rollDie() {
-        
-    }
-    
-    func rollAddedDie() {
-        
-    }
-    
-    func passDice() {
-        
-    }
-    
-    func drink() {
-        
-    }
-    
 }

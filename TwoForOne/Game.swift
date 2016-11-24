@@ -28,8 +28,42 @@ class Game {
         self.intensity = intensity
     }
     
-    func winRound() {
+    func takeTurn() {
+        for die in dice {
+            die.rollDie()
+        }
+        roll = dice.reduce(0) { result, die -> Int in
+            return result + die.value
+        }
+        print (checkScore())
+    }
+    
+    func addDie() {
+        dice.append(Die())
+        dieAdded = true
+    }
+    
+    func rollAddedDie() {
+        if let addedDie = dice.last {
+            addedDie.rollDie()
+            let newRoll = addedDie.value
+            score += newRoll
+        }
+    }
+    
+    func checkScore() -> String {
+        if !dieAdded && roll > score || dieAdded && roll > score   {
+            return winRound()
+        } else if !dieAdded && roll < score {
+            return("do you want to add a die to double the drink wager or drink?")
+        }
+        return loseRound()
+        
+    }
+    
+    func winRound() -> String {
         //update score,drinks, and pass the die to next player
+        var message = "\(player!.name) won the round! "
         score = roll
         drinks += 1
         turn += 1
@@ -39,12 +73,14 @@ class Game {
         } else {
             player = players[turn % players.count]
         }
-        
+        message.append("Pass the die to \(player!.name)")
+        return message
     }
     
     func loseRound() -> String {
         //stop the game and return string of what player has to drink
         //save round to core data?
+        
         return "\(player) has to drink \(drinks)!!"
     }
     
@@ -56,10 +92,5 @@ class Game {
         turn = 0
         dieAdded = false
     }
-    
-    func addDie() {
-        dice.append(Die())
-    }
-    
-    
+
 }
