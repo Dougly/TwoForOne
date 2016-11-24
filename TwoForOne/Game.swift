@@ -9,7 +9,8 @@
 import Foundation
 
 class Game {
-    var players: [String]
+    var players: [Player]
+    var player: Player?
     var intensity: Intensity
     var dice: [Die] = [Die()]
     var roll: Int = 0
@@ -19,25 +20,45 @@ class Game {
     var dieAdded: Bool = false
     
     
-    init(players: [String], intensity: Intensity) {
+    init(players: [Player], intensity: Intensity) {
         self.players = players
+        if !players.isEmpty {
+            self.player = players[0]
+        }
         self.intensity = intensity
     }
     
     func winRound() {
+        //update score,drinks, and pass the die to next player
+        score = roll
+        drinks += 1
+        turn += 1
+        
+        if turn < players.count - 1 {
+            player = players[turn]
+        } else {
+            player = players[turn % players.count]
+        }
         
     }
     
-    func loseRound() {
-        
+    func loseRound() -> String {
+        //stop the game and return string of what player has to drink
+        //save round to core data?
+        return "\(player) has to drink \(drinks)!!"
     }
     
-    func resetBoard() {
-        
+    func playAgain() {
+        dice = [Die()]
+        roll = 0
+        score = 0
+        drinks = 0
+        turn = 0
+        dieAdded = false
     }
     
-    func askPlayerToAddDie() {
-        
+    func addDie() {
+        dice.append(Die())
     }
     
     

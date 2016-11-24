@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class DataStore {
-    static let sharedInstance = PlayerDataStore()
+    static let sharedInstance = DataStore()
     
     private init() {}
     
