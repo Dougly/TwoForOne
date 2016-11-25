@@ -26,32 +26,42 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if let game = game {
             unwrappedGame = game
         }
+        for player in unwrappedGame.players {
+            players.append(player.name!)
+        }
         rollsCollectionView.delegate = self
         rollsCollectionView.dataSource = self
         addDieView.isHidden = true
     }
     
     func printGameDescription() {
-        
-        for player in unwrappedGame.players {
-            players.append(player.name!)
-        }
-        print("game: \(unwrappedGame)\nplayers: \(players)\nscore: \(unwrappedGame.score)\ndrinks: \(unwrappedGame.drinks)\n turn: \(unwrappedGame.player!)")
-        
+        print("\ngame: \(unwrappedGame)\nplayers: \(players)\nscore: \(unwrappedGame.score)\ndrinks: \(unwrappedGame.drinks)\nturn: \(unwrappedGame.player!.name!)")
     }
     
     @IBAction func rollDie(_ sender: UIButton) {
-        unwrappedGame.takeTurn()
+        if unwrappedGame.dieAdded {
+            unwrappedGame.rollAddedDie()
+            let message = unwrappedGame.checkScore { (success) in }
+            print(message)
+        } else {
+            unwrappedGame.takeTurn()
+            let _ = unwrappedGame.checkScore { (success) in
+                addDieView.isHidden = false
+            }
+        }
         printGameDescription()
+        updateBoard()
     }
     
-    func addDie(_ sender: UIButton) {
+    @IBAction func addDie(_ sender: UIButton) {
         unwrappedGame.addDie()
+        
     }
     
     
-    func drink(_ sender: UIButton) {
-        
+    @IBAction func drink(_ sender: UIButton) {
+        unwrappedGame.playAgain()
+        updateBoard()
     }
     
     func updateBoard() {
