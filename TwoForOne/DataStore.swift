@@ -24,7 +24,6 @@ class DataStore {
         }catch{
             print("couldnt get players from persistance container")
         }
-        
     }
     
     

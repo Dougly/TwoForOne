@@ -22,6 +22,7 @@
 		117221231DDD5A6600A7A680 /* PlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117221221DDD5A6600A7A680 /* PlayersViewController.swift */; };
 		117221251DDE108C00A7A680 /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117221241DDE108C00A7A680 /* AddPlayerViewController.swift */; };
 		11798CE21DD410B500ED28CE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11798CE11DD410B500ED28CE /* GameViewController.swift */; };
+		11B3168F1E0A0FDE008E92ED /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3168E1E0A0FDE008E92ED /* Protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		117221221DDD5A6600A7A680 /* PlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersViewController.swift; sourceTree = "<group>"; };
 		117221241DDE108C00A7A680 /* AddPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
 		11798CE11DD410B500ED28CE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		11B3168E1E0A0FDE008E92ED /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +144,12 @@
 		117221171DDD542B00A7A680 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1172211F1DDD57F000A7A680 /* PlayerData.xcdatamodeld */,
 				117221151DDD535700A7A680 /* Die.swift */,
 				114250C11DE5F857003B7624 /* PlayerExtension.swift */,
 				1172211D1DDD571500A7A680 /* DataStore.swift */,
 				114250BF1DE5F678003B7624 /* Game.swift */,
+				11B3168E1E0A0FDE008E92ED /* Protocols.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -174,7 +178,6 @@
 			isa = PBXGroup;
 			children = (
 				110F23D71DC248F2006DCBC5 /* AppDelegate.swift */,
-				1172211F1DDD57F000A7A680 /* PlayerData.xcdatamodeld */,
 				110F23DE1DC248F3006DCBC5 /* Assets.xcassets */,
 				110F23E31DC248F3006DCBC5 /* Info.plist */,
 			);
@@ -319,6 +322,7 @@
 				110F23DA1DC248F2006DCBC5 /* HomeViewController.swift in Sources */,
 				114250C01DE5F678003B7624 /* Game.swift in Sources */,
 				114250C21DE5F857003B7624 /* PlayerExtension.swift in Sources */,
+				11B3168F1E0A0FDE008E92ED /* Protocols.swift in Sources */,
 				117221211DDD57F000A7A680 /* PlayerData.xcdatamodeld in Sources */,
 				11798CE21DD410B500ED28CE /* GameViewController.swift in Sources */,
 				1172211E1DDD571500A7A680 /* DataStore.swift in Sources */,

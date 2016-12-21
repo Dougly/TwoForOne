@@ -8,18 +8,11 @@
 
 import UIKit
 
-class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
+class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var game: Game?
-    var gameDescription = ""
-    
-    var rollToBeat: Int = 0
-    var numOfDrinks: Int = 0
-    var rolls: [Int] = []
+    var unwrappedGame = Game(players: [])
     var players: [String] = []
-    var intensity: Intensity = .heavy
-    var addedDieThisTurn = false
-    var turnCount = 1
     
     @IBOutlet weak var rollsCollectionView: UICollectionView!
     @IBOutlet weak var drinksLabel: UILabel!
@@ -27,129 +20,75 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var addDieView: UIView!
     @IBOutlet weak var currentPlayer: UILabel!
     @IBOutlet weak var rollStatusLabel: UILabel!
-   
+    @IBOutlet weak var gameStatusLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        if let game = game {
+            unwrappedGame = game
+        }
+        for player in unwrappedGame.players {
+            players.append(player.name!)
+        }
         rollsCollectionView.delegate = self
         rollsCollectionView.dataSource = self
         addDieView.isHidden = true
     }
     
     func printGameDescription() {
-        if let game = game {
-            for player in game.players {
-                players.append(player.name!)
-            }
-            print("game: \(game)\nplayers: \(players)\nscore: \(game.score)\ndrinks: \(game.drinks)\n turn: \(game.player!)")
-        }
+        print("\ngame: \(unwrappedGame)\nplayers: \(players)\nscore: \(unwrappedGame.score)\ndrinks: \(unwrappedGame.drinks)\nturn: \(unwrappedGame.player!.name!)")
     }
     
-    @IBAction func rollDie(_ sender: UIButton) {
-        game?.takeTurn()
-        printGameDescription()
-        
-        if rolls.isEmpty {
-            rolls.append(Int(arc4random_uniform(6))+1)
-            numOfDrinks += 1
-            rollToBeat = rolls[0]
-            updateBoard()
-            return
-        }
-        
-        if !addedDieThisTurn {
-            rolls = rolls.map { previousRoll -> Int in
-                return (Int(arc4random_uniform(6))+1)
-            }
-            
-            let newRoll = rolls.reduce(0) { (result, nextNum) -> Int in
-                return result + nextNum
-            }
-            
-            if newRoll == rollToBeat {
-                //player loses
-                resetBoard()
-            } else if newRoll > rollToBeat {
-                rollToBeat = newRoll
-                turnCount += 1
-                numOfDrinks += 1
-                updateBoard()
-            } else if newRoll < rollToBeat {
-                rollStatusLabel.text = "You rolled a \(newRoll) but needed \(rollToBeat)!"
-                addDieView.isHidden = false
-                updateBoard()
-                //give option to add die
-            }
-        }
-        
-        if addedDieThisTurn {
-            rolls.append(Int(arc4random_uniform(6))+1)
-            rollsCollectionView.reloadData()
-            
-            let newRoll = rolls.reduce(0) { (result, nextNum) -> Int in
-                return result + nextNum
-            }
-            
-            if newRoll <= rollToBeat {
-                //player loses
-            } else if newRoll > rollToBeat {
-                rollToBeat = newRoll
-                turnCount += 1
-                numOfDrinks += 1
-                addedDieThisTurn = false
-                updateBoard()
-            }
-
-        }
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
-        
+    
+    @IBAction func rollDie(_ sender: UIButton) {
+        if unwrappedGame.dieAdded {
+            unwrappedGame.rollAddedDie()
+            let message = unwrappedGame.checkScore { (success) in }
+            print(message)
+        } else {
+            unwrappedGame.takeTurn()
+            let _ = unwrappedGame.checkScore { (success) in
+                addDieView.isHidden = false
+            }
+        }
+        printGameDescription()
+        updateBoard()
     }
     
     @IBAction func addDie(_ sender: UIButton) {
-        addedDieThisTurn = true
-        numOfDrinks *= 2
-        addDieView.isHidden = true
-        updateBoard()
+        unwrappedGame.addDie()
+        
     }
     
     
     @IBAction func drink(_ sender: UIButton) {
-    }
-    
-    func playerLoses() {
-        
-    }
-    
-    
-    
-    func updateBoard() {
-        rollToBeatLabel.text = String(rollToBeat)
-        drinksLabel.text = String(numOfDrinks)
-        rollsCollectionView.reloadData()
-
-    }
-    
-    func resetBoard() {
-        rollToBeat = 0
-        numOfDrinks = 0
-        rolls = []
-        addedDieThisTurn = false
-        turnCount = 1
+        unwrappedGame.playAgain()
         updateBoard()
     }
     
+    func updateBoard() {
+        rollToBeatLabel.text = String(unwrappedGame.score)
+        drinksLabel.text = String(unwrappedGame.drinks)
+        rollsCollectionView.reloadData()
+    }
     
-    //Collecton View
+    func resetBoard() {
+        unwrappedGame.playAgain()
+        updateBoard()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return rolls.count
+        return unwrappedGame.dice.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "die", for: indexPath) as! DieCell
         
-        cell.numberLabel.text = String(rolls[indexPath.item])
-        
+        cell.numberLabel.text = String(unwrappedGame.dice[indexPath.item].value)
         
         return cell
     }
@@ -160,6 +99,11 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
 class DieCell: UICollectionViewCell {
     
     @IBOutlet weak var numberLabel: UILabel!
-
     
 }
+
+
+
+
+
+

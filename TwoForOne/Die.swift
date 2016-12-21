@@ -15,5 +15,4 @@ class Die {
         let randomNum = Int(arc4random_uniform(6) + 1)
         value = randomNum
     }
-    
 }
