@@ -14,7 +14,6 @@ class AddPlayerViewController: UIViewController {
     var delegate: SavePlayerDelegate?
     @IBOutlet weak var playerNameTextField: UITextField!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

@@ -8,15 +8,10 @@
 
 import UIKit
 
-enum Intensity: String {
-    case light, medium, heavy
-}
-
 class HomeViewController: UIViewController {
     let store = DataStore.sharedInstance
     var numberOfPlayers: Int = 6
     var selectedPlayers: [Player] = []
-    var intensity: Intensity = .light
     @IBOutlet weak var playerListTextField: UITextField!
     
     override func viewDidLoad() {
@@ -38,20 +33,6 @@ class HomeViewController: UIViewController {
         playerListTextField.text = listOfPlayers
     }
     
-    @IBAction func intensitySegmentControl(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-        switch index {
-        case 0:
-            intensity = .light
-        case 1:
-            intensity = .medium
-        case 2:
-            intensity = .heavy
-        default:
-            break
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPlayers" {
             let destVC = segue.destination as! PlayersViewController
@@ -60,7 +41,7 @@ class HomeViewController: UIViewController {
         
         if segue.identifier == "homeToGame" {
             let destVC = segue.destination as! GameViewController
-            destVC.game = Game(players: selectedPlayers, intensity: intensity)
+            destVC.game = Game(players: selectedPlayers)
         }
     }
 }
@@ -80,7 +61,4 @@ extension HomeViewController: AddPlayerDelegate {
     }
 }
 
-protocol AddPlayerDelegate {
-    func add(player: Player)
-    func remove(player: Player)
-}
+

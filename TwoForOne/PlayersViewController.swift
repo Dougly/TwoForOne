@@ -36,9 +36,7 @@ class PlayersViewController: UIViewController {
 
 
 //MARK: save player delegate
-protocol SavePlayerDelegate {
-    func savePlayer(name: String)
-}
+
 
 extension PlayersViewController: SavePlayerDelegate {
     

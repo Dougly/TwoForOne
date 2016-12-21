@@ -11,7 +11,7 @@ import UIKit
 class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var game: Game?
-    var unwrappedGame = Game(players: [], intensity: .light)
+    var unwrappedGame = Game(players: [])
     var players: [String] = []
     
     @IBOutlet weak var rollsCollectionView: UICollectionView!
@@ -20,6 +20,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var addDieView: UIView!
     @IBOutlet weak var currentPlayer: UILabel!
     @IBOutlet weak var rollStatusLabel: UILabel!
+    @IBOutlet weak var gameStatusLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,11 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func printGameDescription() {
         print("\ngame: \(unwrappedGame)\nplayers: \(players)\nscore: \(unwrappedGame.score)\ndrinks: \(unwrappedGame.drinks)\nturn: \(unwrappedGame.player!.name!)")
     }
+    
+    @IBAction func exitButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     @IBAction func rollDie(_ sender: UIButton) {
         if unwrappedGame.dieAdded {

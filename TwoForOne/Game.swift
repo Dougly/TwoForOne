@@ -11,21 +11,20 @@ import Foundation
 class Game {
     var players: [Player]
     var player: Player?
-    var intensity: Intensity
     var dice: [Die] = [Die()]
     var roll: Int = 0
     var score: Int = 0
     var drinks: Int = 0
     var turn: Int = 0
     var dieAdded: Bool = false
+    var gameStatus: String = ""
     
     
-    init(players: [Player], intensity: Intensity) {
+    init(players: [Player]) {
         self.players = players
         if !players.isEmpty {
             self.player = players[0]
         }
-        self.intensity = intensity
     }
     
     func takeTurn() {
@@ -35,7 +34,6 @@ class Game {
         roll = dice.reduce(0) { result, die -> Int in
             return result + die.value
         }
-        print(checkScore { success in })
     }
     
     func addDie() {
